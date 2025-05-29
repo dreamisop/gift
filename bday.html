@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Sana 🎂</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    background: linear-gradient(135deg, #ffffff, #ffffff);
+    font-family: 'Quicksand', sans-serif;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  #gift-box {
+    width: 150px;
+    height: 150px;
+    background: url('gift.jpg') no-repeat center/contain;
+    margin: 100px auto;
+    cursor: pointer;
+    animation: bounce 1.5s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+
+  #gift-box:hover {
+    transform: scale(1.1);
+  }
+
+  #message {
+    display: none;
+    font-family: 'Pacifico', cursive;
+    font-size: 36px;
+    color: #ff1493;
+    margin-top: 20px;
+  }
+
+  #quotes {
+    display: none;
+    margin-top: 20px;
+    font-size: 18px;
+    color: #555;
+  }
+
+  .quote {
+    margin: 10px;
+  }
+
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  #certificate-btn {
+    display: none;
+    margin-top: 30px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ff69b4;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  /* 🔥 Surprise image styling starts here */
+  #surprise-img {
+  display: none;
+  width: 200px;
+  margin: 40px auto 10px;
+  animation: popIn 0.8s ease;
+  /* 👇 Remove this line (it's conflicting with the one above) */
+  /* display: block; */
+}
+  #surprise-img:hover {
+    transform: scale(1.1);
+  }
+
+  @keyframes popIn {
+    0% {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  @media (max-width: 600px) {
+  #surprise-img {
+    width: 120px;
+  }
+
+  #message {
+    font-size: 24px;
+  }
+
+  .quote {
+    font-size: 16px;
+  }
+}
+
+</style>
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+  <div id="gift-box"></div>
+  <img id="surprise-img" src="flower.jpg" alt="Surprise Image" />
+  <div id="message">Happy 16th Birthday Sana Sheikh! 🎉</div>
+  <div id="quotes">
+    <div class="quote">“You’re not just a year older, but a year more amazing.”</div>
+    <div class="quote">“Wishing you love, laughter, and endless joy.”</div>
+    <div class="quote">“Stay beautiful, inside and out.”</div>
+  </div>
+  <button id="certificate-btn">Get Your Birthday Award 🎖️</button>
+
+  <audio id="bg-music" src="https://www.bensound.com/bensound-music/bensound-happyrock.mp3" preload="auto"></audio>
+
+<script>
+  const giftBox = document.getElementById('gift-box');
+  const message = document.getElementById('message');
+  const quotes = document.getElementById('quotes');
+  const button = document.getElementById('certificate-btn');
+  const music = document.getElementById('bg-music');
+  const surpriseImg = document.getElementById('surprise-img'); // new line
+
+  let triggered = false;
+
+  giftBox.addEventListener('click', () => {
+    if (triggered) return;
+    triggered = true;
+
+    // Hide gift box
+    giftBox.style.display = 'none';
+
+    // Show surprise image + message
+    surpriseImg.style.display = 'block';
+    message.style.display = 'block';
+    quotes.style.display = 'block';
+    button.style.display = 'inline-block';
+
+    // Music + Confetti
+    music.play();
+    startConfetti();
+  });
+
+  button.addEventListener('click', () => {
+    window.open('cert.jpeg', '_blank'); // Placeholder for certificate
+  });
+
+  // Basic confetti script
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let pieces = [];
+  for (let i = 0; i < 100; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      r: Math.random() * 20 + 10,
+      d: Math.random() * 50 + 10,
+      color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+      tilt: Math.random() * 10 - 10
+    });
+  }
+
+  function drawConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let p of pieces) {
+      ctx.beginPath();
+      ctx.fillStyle = p.color;
+      ctx.ellipse(p.x, p.y, p.r, p.r / 2, p.tilt, 0, 2 * Math.PI);
+      ctx.fill();
+      p.y += p.d * 0.05;
+      if (p.y > canvas.height) p.y = -20;
+    }
+  }
+
+  function startConfetti() {
+    setInterval(drawConfetti, 50);
+  }
+</script>
+</body>
+</html>
